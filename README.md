@@ -5,17 +5,19 @@ Make JSON from an Object (the opposite of JSON::Unmarshal)
 ## Synopsis
 
 ```
-    use JSON::Marshal;
+   use JSON::Marshal;
 
     class SomeClass {
       has Str $.string;
       has Int $.int;
+      has Version $.version is marshalled-by('Str');
     }
 
-    my $object = SomeClass.new(string => "string", int => 42);
+    my $object = SomeClass.new(string => "string", int => 42, version => Version.new("0.0.1"));
 
 
-    my Str $json = marshal($object); # -> "{ "string" : "string", "int" : 42 }'
+    my Str $json = marshal($object); # -> "{ "string" : "string", "int" : 42, "version" : "0.0.1" }'
+
 
 ```
 
@@ -29,9 +31,14 @@ It only outputs the "public" attributes (that is those with accessors
 created by declaring them with the '.' twigil. Attributes without acccessors
 are ignored.
 
-This is intended to work with objects of arbitrary classes without changes,
-though clearly some loss of fidelity may occur as JSON may not carry all
-the information that a Perl 6 class can.
+To allow a finer degree of control of how an attribute is marshalled an
+attribute trait C<is marshalled-by> is provided, this can take either
+a Code object (an anonymous subroutine,) which should take as an argument
+the value to be marshalled and should return a value that can be completely
+represented as JSON, that is to say a string, number or boolean or a Hash
+or Array who's values are those things. Alternatively the name of a method
+that will be called on the value, the return value being constrained as
+above.
 
 ## Installation
 
