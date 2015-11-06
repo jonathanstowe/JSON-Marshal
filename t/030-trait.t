@@ -33,7 +33,7 @@ subtest {
 
     my $parsed;
 
-    lives-ok { $parsed = from-json($parsed) }, "got sensible JSON back";
+    lives-ok { $parsed = from-json($json) }, "got sensible JSON back";
 
     ok $parsed.defined, "got something back";
     is $parsed<version>, "0.0.1", "and has the right value";
