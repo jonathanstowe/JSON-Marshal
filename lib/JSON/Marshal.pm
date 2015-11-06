@@ -39,7 +39,7 @@ the information that a Perl 6 class can.
 
 =end pod
 
-module JSON::Marshal:ver<v0.0.1>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<v0.0.2>:auth<github:jonathanstowe> {
 
     use JSON::Tiny;
 
