@@ -43,6 +43,40 @@ module JSON::Marshal:ver<v0.0.2>:auth<github:jonathanstowe> {
 
     use JSON::Tiny;
 
+
+    role CustomMarshaller {
+        method marshal($value, Mu:D $object) {
+            ...
+        }
+    }
+
+    role CustomMarshallerCode does CustomMarshaller {
+        has &.marshaller is rw;
+
+        method marshal($value, Mu:D $object) {
+            # the dot below is important otherwise it refers
+            # to the accessor method
+            self.marshaller.($value);
+        }
+    }
+
+    role CustomMarshallerMethod does CustomMarshaller {
+        has Str $.marshaller is rw;
+        method marshal($value, Mu:D $type) {
+            my $meth = self.marshaller;
+            $value."$meth"();
+        }
+    }
+
+    multi sub trait_mod:<is> (Attribute $attr, :&marshalled-by!) is export {
+        $attr does CustomMarshallerCode;
+        $attr.marshaller = &marshalled-by;
+    }
+
+    multi sub trait_mod:<is> (Attribute $attr, Str:D :$marshalled-by!) is export {
+        $attr does CustomMarshallerMethod;
+        $attr.marshaller = $marshalled-by;
+    }
     
     multi sub _marshal(Cool $value) {
         $value;
@@ -72,7 +106,14 @@ module JSON::Marshal:ver<v0.0.2>:auth<github:jonathanstowe> {
         for $obj.^attributes -> $attr {
             if $attr.has-accessor {
                 my $name = $attr.name.substr(2); # lose the sigil
-                %ret{$name} = _marshal($attr.get_value($obj));
+                my $value = $attr.get_value($obj);
+                %ret{$name} = do if $attr ~~ CustomMarshaller {
+                    $attr.marshal($value, $obj);
+                }
+                else {
+                    _marshal($value);
+                }
+
             }
         }
         %ret;
