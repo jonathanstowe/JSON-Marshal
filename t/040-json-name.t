@@ -4,7 +4,6 @@ use v6;
 use lib 'lib';
 
 use Test;
-use-ok('META6', 'Can load "META6" ok');
 
 use JSON::Marshal;
 use JSON::Name;
