@@ -46,9 +46,10 @@ above.
 
 =end pod
 
-module JSON::Marshal:ver<v0.0.2>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<v0.0.3>:auth<github:jonathanstowe> {
 
     use JSON::Tiny;
+    use JSON::Name;
 
 
     role CustomMarshaller {
@@ -112,7 +113,12 @@ module JSON::Marshal:ver<v0.0.2>:auth<github:jonathanstowe> {
         my %ret;
         for $obj.^attributes -> $attr {
             if $attr.has-accessor {
-                my $name = $attr.name.substr(2); # lose the sigil
+                my $name = do if $attr ~~ JSON::Name::NamedAttribute {
+                    $attr.json-name;
+                }
+                else {
+                    $attr.name.substr(2); # lose the sigil
+                }
                 my $value = $attr.get_value($obj);
                 %ret{$name} = do if $attr ~~ CustomMarshaller {
                     $attr.marshal($value, $obj);
