@@ -46,10 +46,11 @@ above.
 
 =end pod
 
+use JSON::Name;
+
 module JSON::Marshal:ver<v0.0.3>:auth<github:jonathanstowe> {
 
     use JSON::Tiny;
-    use JSON::Name;
 
 
     role CustomMarshaller {
