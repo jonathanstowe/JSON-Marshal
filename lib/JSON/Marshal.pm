@@ -32,7 +32,14 @@ using L<JSON::Unmarshal|https://github.com/tadzik/JSON-Unmarshal>.
 
 It only outputs the "public" attributes (that is those with accessors
 created by declaring them with the '.' twigil. Attributes without acccessors
-are ignored.
+are ignored.  
+
+If you want to ignore any attributes without a value you can use the
+:skip-null adverb to C<marshal>, which will supress the marshalling of
+any undefined attributes.  Additionally if you want a finer-grained control
+over this behaviour there is a 'json-skip-null' attribute trait which
+will cause the specific attribute to be skipped if it isn't defined irrespective
+of the C<skip-null>.
 
 To allow a finer degree of control of how an attribute is marshalled an
 attribute trait C<is marshalled-by> is provided, this can take either 
