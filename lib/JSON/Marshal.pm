@@ -48,7 +48,7 @@ above.
 
 use JSON::Name;
 
-module JSON::Marshal:ver<v0.0.5>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<0.0.6>:auth<github:jonathanstowe> {
 
     use JSON::Tiny;
 
