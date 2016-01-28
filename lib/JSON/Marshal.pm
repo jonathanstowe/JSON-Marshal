@@ -86,6 +86,13 @@ module JSON::Marshal:ver<v0.0.5>:auth<github:jonathanstowe> {
         $attr does CustomMarshallerMethod;
         $attr.marshaller = $marshalled-by;
     }
+
+    role SkipNull {
+    }
+
+    multi sub trait_mod:<is> (Attribute $attr, :$json-skip-null!) is export {
+        $attr does SkipNull;
+    }
     
     multi sub _marshal(Cool $value) {
         $value;
@@ -110,7 +117,7 @@ module JSON::Marshal:ver<v0.0.5>:auth<github:jonathanstowe> {
         @ret;
     }
     
-    multi sub _marshal(Mu $obj) returns Hash {
+    multi sub _marshal(Mu $obj, Bool :$skip-null) returns Hash {
         my %ret;
         for $obj.^attributes -> $attr {
             if $attr.has_accessor {
@@ -121,11 +128,13 @@ module JSON::Marshal:ver<v0.0.5>:auth<github:jonathanstowe> {
                     $attr.name.substr(2); # lose the sigil
                 }
                 my $value = $attr.get_value($obj);
-                %ret{$name} = do if $attr ~~ CustomMarshaller {
-                    $attr.marshal($value, $obj);
-                }
-                else {
-                    _marshal($value);
+                if serialise-ok($attr, $value, $skip-null) {
+                    %ret{$name} = do if $attr ~~ CustomMarshaller {
+                        $attr.marshal($value, $obj);
+                    }
+                    else {
+                        _marshal($value);
+                    }
                 }
 
             }
@@ -133,8 +142,18 @@ module JSON::Marshal:ver<v0.0.5>:auth<github:jonathanstowe> {
         %ret;
     }
 
-    sub marshal(Any $obj) returns Str is export {
-        my $ret = _marshal($obj);
+    sub serialise-ok(Attribute $attr, $value, Bool $skip-null ) returns Bool {
+        my $rc = True;
+        if $skip-null || ( $attr ~~ SkipNull ) {
+            if not $value.defined {
+                $rc = False;
+            }
+        }
+        $rc;
+    }
+
+    sub marshal(Any $obj, Bool :$skip-null) returns Str is export {
+        my $ret = _marshal($obj, :$skip-null);
         to-json($ret);
     }
 }
