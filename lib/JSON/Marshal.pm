@@ -80,7 +80,7 @@ module JSON::Marshal:ver<0.0.8>:auth<github:jonathanstowe> {
         has Str $.marshaller is rw;
         method marshal($value, Mu:D $type) {
             my $meth = self.marshaller;
-            $value."$meth"();
+            $value.defined ?? $value."$meth"() !! $type;
         }
     }
 
