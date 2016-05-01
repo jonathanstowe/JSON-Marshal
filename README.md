@@ -72,7 +72,7 @@ work or any other equally capable package management tool.
 
 Suggestions/patches are welcomed via github at
 
-   https://github.com/jonathanstowe/JSON-Marshal
+https://github.com/jonathanstowe/JSON-Marshal/issues
 
 ## Licence
 
