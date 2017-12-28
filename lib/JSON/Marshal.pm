@@ -107,6 +107,9 @@ module JSON::Marshal:ver<0.0.13>:auth<github:jonathanstowe> {
         $value;
     }
 
+    multi sub _marshal(Associative:U $, Bool :$skip-null --> Nil ) {
+        Nil;
+    }
     multi sub _marshal(%obj, Bool :$skip-null) returns Hash {
         my %ret;
 
@@ -117,6 +120,9 @@ module JSON::Marshal:ver<0.0.13>:auth<github:jonathanstowe> {
         %ret;
     }
 
+    multi sub _marshal(Positional:U $, Bool :$skip-null --> Nil ) {
+        Nil;
+    }
     multi sub _marshal(@obj, Bool :$skip-null) returns Array {
         my @ret;
 

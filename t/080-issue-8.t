@@ -14,6 +14,7 @@ class C {
 class D {
     has Str $.gh;
 }
+
 my @tests = (
     {
         description => "class with no attributes",
@@ -22,7 +23,15 @@ my @tests = (
     {
         description => "class with attributes",
         type_object => D,
-    }
+    },
+    {
+        description => "Hash type object",
+        type_object => Hash,
+    },
+    {
+        description => "Array type object",
+        type_object => Array,
+    },
 );
 
 for @tests -> $test {
