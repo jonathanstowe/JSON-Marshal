@@ -126,7 +126,11 @@ module JSON::Marshal:ver<0.0.13>:auth<github:jonathanstowe> {
         @ret;
     }
 
-    multi sub _marshal(Mu $obj, Bool :$skip-null) returns Hash {
+    multi sub _marshal(Mu:U $, Bool :$skip-null --> Nil ) {
+        Nil;
+    }
+
+    multi sub _marshal(Mu:D $obj, Bool :$skip-null) returns Hash {
         my %ret;
         my %local-attrs =  $obj.^attributes(:local).map({ $_.name => $_.package });
         for $obj.^attributes -> $attr {
