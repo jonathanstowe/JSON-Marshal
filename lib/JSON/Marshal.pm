@@ -103,6 +103,16 @@ module JSON::Marshal:ver<0.0.14>:auth<github:jonathanstowe> {
         $attr does SkipNull;
     }
 
+    # This is a hard skip the attribute will never be emitted.
+    role JsonSkip {
+    }
+
+    multi sub trait_mod:<is> (Attribute $attr, :$json-skip!) is export {
+        $attr does JsonSkip;
+    }
+
+
+
     multi sub _marshal(Cool $value, Bool :$skip-null) {
         $value;
     }
@@ -167,7 +177,10 @@ module JSON::Marshal:ver<0.0.14>:auth<github:jonathanstowe> {
 
     sub serialise-ok(Attribute $attr, $value, Bool $skip-null --> Bool ) {
         my $rc = True;
-        if $skip-null || ( $attr ~~ SkipNull ) {
+        if  $attr ~~ JsonSkip {
+            $rc = False;
+        }
+        elsif $skip-null || ( $attr ~~ SkipNull ) {
             if $attr.type ~~ Associative|Positional {
                 $rc = ?$value.elems;
             }
