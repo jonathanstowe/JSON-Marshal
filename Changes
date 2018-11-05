@@ -1,3 +1,5 @@
+v0.0.15     Mon  5 Nov 13:55:34 GMT 2018
+    * Add a json-skip trait to inhibit marshalling of attribute
 v0.0.14		Thu 28 Dec 14:52:18 GMT 2017
 	* Fix for marshalling of class and aggregate type objects
 v0.0.13		Sat Jul 22 09:26:54 2017 +0100 
@@ -16,7 +18,3 @@ v0.0.7		Fri Apr 1 20:59:12 2016 +0100
 	* Allow marshalling of positional, associative objects.
 v0.0.6		Thu Jan 28 10:35:09 2016 +0000 
 	* Add skipping the serialisation of undefined attributes
-		 
-	* Merge branch 'master' of github.com:jonathanstowe/JSON-Marshal
-		 
-	* Bump the version
