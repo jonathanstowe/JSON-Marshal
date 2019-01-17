@@ -76,4 +76,4 @@ https://github.com/jonathanstowe/JSON-Marshal/issues
 
 Please see the LICENCE file in the distribution
 
-© Jonathan Stowe 2015, 2016, 2017
+© Jonathan Stowe 2015, 2016, 2017, 2018, 2019

@@ -1,3 +1,5 @@
+v0.0.16     Thu 17 Jan 09:36:04 GMT 2019
+    * Spring Clean and upload to CPAN
 v0.0.15     Mon  5 Nov 13:55:34 GMT 2018
     * Add a json-skip trait to inhibit marshalling of attribute
 v0.0.14		Thu 28 Dec 14:52:18 GMT 2017
