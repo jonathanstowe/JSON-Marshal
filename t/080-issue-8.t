@@ -1,6 +1,6 @@
 #!/usr/bin/env perl6
 
-use v6.c;
+use v6;
 
 use Test;
 
@@ -42,7 +42,7 @@ for @tests -> $test {
         nok $in.defined, "roundtripped value not defined";
         ok $in ~~ Any, "it's an Any";
         ok $in !~~ Hash, "and it's not a hash";
-        
+
 
     }, $test<description>;
 }
