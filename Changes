@@ -1,3 +1,6 @@
+v0.0.19		Sun 27 Sep 18:21:50 BST 2020
+	* Fix for method name marshaller with undefined value
+    * Fix for anonymous constraint on attribute
 v0.0.18     Thu 18 Apr 14:20:37 BST 2019
     * Pass on the :sorted-keys to JSON::Fast::to-json
 v0.0.17		Mon  4 Mar 19:42:48 GMT 2019

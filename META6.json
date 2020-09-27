@@ -1,13 +1,13 @@
 {
   "name": "JSON::Marshal",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "auth": "github:jonathanstowe",
   "api": "1.0",
   "description": "Simple serialisation of objects to JSON",
-  "source-url": "git://github.com/jonathanstowe/JSON-Marshal.git",
+  "source-url": "https://github.com/jonathanstowe/JSON-Marshal.git",
   "support": {
     "email": "jns+git@gellyfish.co.uk",
-    "source": "git://github.com/jonathanstowe/JSON-Marshal.git",
+    "source": "https://github.com/jonathanstowe/JSON-Marshal.git",
     "bugtracker": "https://github.com/jonathanstowe/JSON-Marshal/issues"
   },
   "perl": "6.*",
