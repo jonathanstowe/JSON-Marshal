@@ -1,16 +1,23 @@
 {
+  "type": "layout",
   "children": [
     {
-      "name": "META6.json",
-      "type": "file"
+      "type": "file",
+      "name": "META6.json"
     },
     {
-      "purpose": null,
-      "type": "directory",
+      "type": "file",
+      "name": "Changes"
+    },
+    {
+      "type": "file",
+      "name": "LICENCE"
+    },
+    {
       "children": [
         {
-          "type": "file",
-          "name": "080-issue-8.t"
+          "name": "020-marshal.t",
+          "type": "file"
         },
         {
           "name": "050-skip-null.t",
@@ -21,7 +28,11 @@
           "name": "010-use.t"
         },
         {
-          "name": "020-marshal.t",
+          "name": "110-skip.t",
+          "type": "file"
+        },
+        {
+          "name": "040-json-name.t",
           "type": "file"
         },
         {
@@ -29,35 +40,31 @@
           "type": "file"
         },
         {
+          "name": "080-type-constraints.t",
+          "type": "file"
+        },
+        {
+          "name": "100-meta6-issue-22.t",
+          "type": "file"
+        },
+        {
+          "name": "090-issue-8.t",
+          "type": "file"
+        },
+        {
+          "name": "070-inheritance.t",
+          "type": "file"
+        },
+        {
           "type": "file",
           "name": "030-trait.t"
-        },
-        {
-          "type": "file",
-          "name": "040-json-name.t"
-        },
-        {
-          "type": "file",
-          "name": "070-inheritance.t"
-        },
-        {
-          "name": "090-skip.t",
-          "type": "file"
         }
       ],
-      "name": "t"
-    },
-    {
-      "name": "Changes",
-      "type": "file"
-    },
-    {
-      "name": "README.md",
-      "type": "file"
-    },
-    {
       "type": "directory",
-      "purpose": null,
+      "name": "t",
+      "purpose": null
+    },
+    {
       "children": [
         {
           "name": "JSON",
@@ -65,18 +72,19 @@
           "purpose": null,
           "children": [
             {
-              "name": "Marshal.pm",
-              "type": "file"
+              "type": "file",
+              "name": "Marshal.pm"
             }
           ]
         }
       ],
-      "name": "lib"
+      "purpose": null,
+      "name": "lib",
+      "type": "directory"
     },
     {
-      "type": "file",
-      "name": "LICENCE"
+      "name": "README.md",
+      "type": "file"
     }
-  ],
-  "type": "layout"
+  ]
 }
