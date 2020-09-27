@@ -11,6 +11,7 @@
     "bugtracker": "https://github.com/jonathanstowe/JSON-Marshal/issues"
   },
   "perl": "6.*",
+  "raku": "6.*",
   "resources": [
   ],
   "depends": [
@@ -36,5 +37,5 @@
   "provides": {
     "JSON::Marshal": "lib/JSON/Marshal.pm"
   },
-  "meta-version": "0"
+  "meta-version": "1"
 }

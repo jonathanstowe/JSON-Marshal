@@ -54,8 +54,7 @@ above.
 
 ## Installation
 
-Assuming you have a working Rakudo Perl 6 installation, you can install this
-with ```zef``` :
+Assuming you have a working Rakudo installation, you can install this with ```zef``` :
 
     # From the source directory
    
@@ -76,4 +75,4 @@ https://github.com/jonathanstowe/JSON-Marshal/issues
 
 Please see the LICENCE file in the distribution
 
-© Jonathan Stowe 2015, 2016, 2017, 2018, 2019
+© Jonathan Stowe 2015, 2016, 2017, 2018, 2019, 2020
