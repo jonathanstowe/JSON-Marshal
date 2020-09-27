@@ -43,14 +43,17 @@ irrespective of the C<skip-null>.  C<skip-null> or the C<json-skip-null>
 trait is applied to a C<Positional> or C<Associative> attribute this
 will suppress the marshalling of an empty list or object attribute.
 
-To allow a finer degree of control of how an attribute is marshalled an
-attribute trait C<is marshalled-by> is provided, this can take either
-a Code object (an anonymous subroutine,) which should take as an argument
-the value to be marshalled and should return a value that can be completely
-represented as JSON, that is to say a string, number or boolean or a Hash
-or Array who's values are those things. Alternatively the name of a method
-that will be called on the value, the return value being constrained as
-above.
+To allow a finer degree of control of how an attribute is marshalled
+an attribute trait C<is marshalled-by> is provided, this can take
+either a Code object (an anonymous subroutine,) which should take as an
+argument the value to be marshalled and should return a value that can be
+completely represented as JSON, that is to say a string, number or boolean
+or Nil or a Hash or Array who's values are those things. Alternatively
+the name of a method that will be called on the value, the return value
+being constrained as above. In the case of the Code argument to the
+trait, the supplied subroutine should handle the case of an undefined
+value for itself as appropriate, in the case of a method name it will
+not be called at all and the attribute will be marshalled as Nil.
 
 You can pass the adverb C<:sorted-keys> to C<marshal> which is in turn
 passed on to C<JSON::Fast> to cause the keys to be sorted before the JSON
@@ -178,7 +181,7 @@ module JSON::Marshal:ver<0.0.19>:auth<github:jonathanstowe> {
         %ret;
     }
 
-    sub serialise-ok(Attribute $attr, $value, Bool $skip-null --> Bool ) {
+    sub serialise-ok(Attribute $attr, Mu $value, Bool $skip-null --> Bool ) {
         my $rc = True;
         if  $attr ~~ JsonSkip {
             $rc = False;
