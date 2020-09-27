@@ -60,7 +60,7 @@ is created.
 
 use JSON::Name;
 
-module JSON::Marshal:ver<0.0.18>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<0.0.19>:auth<github:jonathanstowe> {
 
     use JSON::Fast:ver(v0.4+);
 
@@ -85,7 +85,7 @@ module JSON::Marshal:ver<0.0.18>:auth<github:jonathanstowe> {
         has Str $.marshaller is rw;
         method marshal($value, Mu:D $type) {
             my $meth = self.marshaller;
-            $value.defined ?? $value."$meth"() !! $type;
+            $value.defined ?? $value."$meth"() !! Nil;
         }
     }
 

@@ -25,5 +25,9 @@ lives-ok { $back = from-json($json) }, "parse the JSON";
 
 is $back<666.evil.name>, $obj.nice-name, "and we got the key back with the json name";
 
+lives-ok { $obj = TestClass.new }, "create on object with a json-name attribute but not defined";
+
+lives-ok { $json = marshal($obj) }, "marshal that object";
+
 done-testing;
 # vim: expandtab shiftwidth=4 ft=perl6
