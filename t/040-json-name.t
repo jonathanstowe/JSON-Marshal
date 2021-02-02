@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 
 use v6;
 
@@ -30,4 +30,4 @@ lives-ok { $obj = TestClass.new }, "create on object with a json-name attribute 
 lives-ok { $json = marshal($obj) }, "marshal that object";
 
 done-testing;
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku

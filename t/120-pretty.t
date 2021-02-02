@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 
 use v6;
 use Test;
@@ -37,4 +37,4 @@ lives-ok { $ret = marshal($outer, :sorted-keys, :!pretty) }, "compact-marshal ob
 is $ret, '{"bool":true,"int":42,"str-array":["one","two","three"],"string":"string"}', "marshalled JSON is compact";
 
 done-testing;
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku

@@ -1,3 +1,7 @@
+v0.0.20		Tue  2 Feb 08:17:07 GMT 2021
+	* Add "pretty" adverb to pass to JSON::Fast (from Vadim Belman.)
+	* Switch to GH actions
+	* A little spring cleans
 v0.0.19		Sun 27 Sep 18:21:50 BST 2020
 	* Fix for method name marshaller with undefined value
     * Fix for anonymous constraint on attribute

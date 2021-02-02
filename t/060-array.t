@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 
 use v6;
 
@@ -22,4 +22,4 @@ is $test[0]<string>, 'one', "got right object in first element";
 is $test[1]<string>, 'two', "got right object in second element";
 
 done-testing;
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku

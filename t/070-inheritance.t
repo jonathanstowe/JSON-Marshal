@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 
 use v6;
 use Test;
@@ -45,4 +45,4 @@ lives-ok { $ret = marshal($outer) }, "marshal object";
 is %json<version>, '0.0.1', "and it got the right custom marshaller";
 
 done-testing;
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku

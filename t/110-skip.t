@@ -1,4 +1,4 @@
-#!/usr/bin/env perl6
+#!/usr/bin/env raku
 
 use v6;
 
@@ -25,5 +25,5 @@ ok %data<not-skipped>:exists, "the not skipped attribute is in the JSON";
 
 done-testing;
 
-# vim: ft=perl6
+# vim: ft=raku
 

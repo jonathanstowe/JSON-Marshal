@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 
 use v6;
 use Test;
@@ -47,4 +47,4 @@ ok $out<empty-hash>:exists, "the empty hash is there";
 nok $out<skip-hash>:exists, "the skipped one isn't there";
 
 done-testing;
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku

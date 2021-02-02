@@ -2,11 +2,11 @@
 
 Make JSON from an Object (the opposite of JSON::Unmarshal)
 
-[![Build Status](https://travis-ci.org/jonathanstowe/JSON-Marshal.svg?branch=master)](https://travis-ci.org/jonathanstowe/JSON-Marshal)
+![Build Status](https://github.com/jonathanstowe/JSON-Marshal/workflows/CI/badge.svg)
 
 ## Synopsis
 
-```perl6
+```raku
 
    use JSON::Marshal;
 
@@ -52,6 +52,10 @@ or Array who's values are those things. Alternatively the name of a method
 that will be called on the value, the return value being constrained as
 above.
 
+By default the JSON produced is _pretty_ (that is newlines and indentation,) 
+which is nice for humans to read but has a lot of superfluous characters in
+it, this can be controlled by passing `:!pretty` to `marshal`.
+
 ## Installation
 
 Assuming you have a working Rakudo installation, you can install this with ```zef``` :
@@ -73,6 +77,6 @@ https://github.com/jonathanstowe/JSON-Marshal/issues
 
 ## Licence
 
-Please see the LICENCE file in the distribution
+Please see the [LICENCE](LICENCE) file in the distribution
 
-© Jonathan Stowe 2015, 2016, 2017, 2018, 2019, 2020
+© Jonathan Stowe 2015, 2016, 2017, 2018, 2019, 2020, 2021

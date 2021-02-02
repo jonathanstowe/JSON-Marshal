@@ -59,11 +59,17 @@ You can pass the adverb C<:sorted-keys> to C<marshal> which is in turn
 passed on to C<JSON::Fast> to cause the keys to be sorted before the JSON
 is created.
 
+By default the JSON produced is I<pretty> (that is newlines and indentation,)
+which is nice for humans to read but has a lot of superfluous characters in
+it, this can be controlled by passing C<:!pretty> to C<marshal> which is passed
+to C<JSON::Fast>
+
+
 =end pod
 
 use JSON::Name;
 
-module JSON::Marshal:ver<0.0.19>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<0.0.20>:auth<github:jonathanstowe> {
 
     use JSON::Fast:ver(v0.4+);
 
@@ -202,4 +208,4 @@ module JSON::Marshal:ver<0.0.19>:auth<github:jonathanstowe> {
         to-json($ret, :$sorted-keys, :$pretty);
     }
 }
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku

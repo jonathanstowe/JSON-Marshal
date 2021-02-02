@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 
 use v6;
 use Test;
@@ -42,4 +42,4 @@ lives-ok { $ret = marshal($outer, :sorted-keys) }, "marshal object with sorted k
 ok $ret ~~ /.*"bool".*"inner".*"int".*"str-array".*"string"/,  "keys are in the order expected";
 
 done-testing;
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku
