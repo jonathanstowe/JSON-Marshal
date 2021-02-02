@@ -197,9 +197,9 @@ module JSON::Marshal:ver<0.0.19>:auth<github:jonathanstowe> {
         $rc;
     }
 
-    sub marshal(Any $obj, Bool :$skip-null, Bool :$sorted-keys = False --> Str ) is export {
+    sub marshal(Any $obj, Bool :$skip-null, Bool :$sorted-keys = False, Bool :$pretty = True --> Str ) is export {
         my $ret = _marshal($obj, :$skip-null);
-        to-json($ret, :$sorted-keys);
+        to-json($ret, :$sorted-keys, :$pretty);
     }
 }
 # vim: expandtab shiftwidth=4 ft=perl6
