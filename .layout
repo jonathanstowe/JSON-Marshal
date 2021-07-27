@@ -32,6 +32,14 @@
           "type": "file"
         },
         {
+          "name": "120-pretty.t",
+          "type": "file"
+        },
+        {
+          "name": "130-custom-accessor.t",
+          "type": "file"
+        },
+        {
           "name": "040-json-name.t",
           "type": "file"
         },

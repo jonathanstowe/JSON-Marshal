@@ -69,7 +69,7 @@ to C<JSON::Fast>
 
 use JSON::Name;
 
-module JSON::Marshal:ver<0.0.20>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<0.0.21>:auth<github:jonathanstowe> {
 
     use JSON::Fast:ver(v0.4+);
 
@@ -166,13 +166,14 @@ module JSON::Marshal:ver<0.0.20>:auth<github:jonathanstowe> {
                 next;
             }
             if $attr.has_accessor {
+                my $accessor-name = $attr.name.substr(2); # lose the sigil
                 my $name = do if $attr ~~ JSON::Name::NamedAttribute {
                     $attr.json-name;
                 }
                 else {
-                    $attr.name.substr(2); # lose the sigil
+                    $accessor-name;
                 }
-                my $value = $attr.get_value($obj);
+                my $value = $obj.^can($accessor-name) ?? $obj."$accessor-name"() !! $attr.get_value($obj);
                 if serialise-ok($attr, $value, $skip-null) {
                     %ret{$name} = do if $attr ~~ CustomMarshaller {
                         $attr.marshal($value, $obj);
