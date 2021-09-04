@@ -69,9 +69,9 @@ to C<JSON::Fast>
 
 use JSON::Name;
 
-module JSON::Marshal:ver<0.0.21>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<0.0.22>:auth<github:jonathanstowe> {
 
-    use JSON::Fast:ver(v0.4+);
+    use JSON::Fast:ver(v0.16+);
 
 
     role CustomMarshaller {

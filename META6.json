@@ -1,6 +1,6 @@
 {
   "name": "JSON::Marshal",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "auth": "github:jonathanstowe",
   "api": "1.0",
   "description": "Simple serialisation of objects to JSON",
@@ -15,14 +15,14 @@
   "resources": [
   ],
   "depends": [
-    "JSON::Fast",
+    "JSON::Fast:ver<0.16+>",
     "JSON::Name"
   ],
   "build-depends": [
   ],
   "test-depends": [
     "Test",
-    "JSON::Fast"
+    "JSON::Fast:ver<0.16+>"
   ],
   "author": "Jonathan Stowe <jns+git@gellyfish.co.uk>",
   "authors": [

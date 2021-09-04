@@ -1,3 +1,6 @@
+v0.0.22		Sat  4 Sep 14:07:48 BST 2021
+	* Don't use fixed string to test pretty
+	* Fix version of JSON::Fast
 v0.0.21		Tue 27 Jul 16:03:51 BST 2021
 	* Use accessor method if possible
 v0.0.20		Tue  2 Feb 08:17:07 GMT 2021
