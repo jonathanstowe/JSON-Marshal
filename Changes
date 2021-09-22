@@ -1,3 +1,5 @@
+v0.0.23		Wed 22 Sep 10:43:22 BST 2021
+	* Provide for opt-in serialization
 v0.0.22		Sat  4 Sep 14:07:48 BST 2021
 	* Don't use fixed string to test pretty
 	* Fix version of JSON::Fast

@@ -40,6 +40,10 @@
           "type": "file"
         },
         {
+          "name": "140-opt-in.t",
+          "type": "file"
+        },
+        {
           "name": "040-json-name.t",
           "type": "file"
         },
@@ -81,12 +85,12 @@
           "children": [
             {
               "type": "file",
-              "name": "Marshal.pm"
+              "name": "Marshal.rakumod"
             }
           ]
         }
       ],
-      "purpose": null,
+      "purpose": "library",
       "name": "lib",
       "type": "directory"
     },

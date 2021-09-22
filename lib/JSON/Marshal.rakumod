@@ -24,6 +24,26 @@ JSON::Marshal - Make JSON from an Object.
 
 =end code
 
+Or with 'opt-in' marshalling:
+
+=begin code
+    use JSON::Marshal;
+    use JSON::OptIn;
+
+    class SomeClass {
+      has Str $.string is json;
+      has Int $.int    is json;
+      has Str $.secret;
+      has Version $.version is marshalled-by('Str');
+    }
+
+    my $object = SomeClass.new(secret => "secret", string => "string", int => 42, version => Version.new("0.0.1"));
+
+
+    my Str $json = marshal($object, :opt-in); # -> "{ "string" : "string", "int" : 42, "version" : "0.0.1" }'
+
+=end code
+
 =head1 DESCRIPTION
 
 This provides a single exported subroutine to create a JSON representation
@@ -41,7 +61,20 @@ control over this behaviour there is a 'json-skip-null' attribute trait
 which will cause the specific attribute to be skipped if it isn't defined
 irrespective of the C<skip-null>.  C<skip-null> or the C<json-skip-null>
 trait is applied to a C<Positional> or C<Associative> attribute this
-will suppress the marshalling of an empty list or object attribute.
+will suppress the marshalling of an empty list or object attribute.  If
+you want to always explicitly suppress the marshalling of an attribute then
+the the trait C<json-skip> on an attribute will prevent it being output
+in the JSON.
+
+By default B<all> public attributes will be candidates to be marshalled to JSON,
+which may not be convenient for all applications (for example only a small
+number of attributes should be marshalled in a large class,) so the C<marshal>
+provides an C<:opt-in> adverb that inverts the behaviour so that only those
+attributes which have one of the traits that control marshalling
+(with the exception of C<json-skip>,) will be candidates.  The C<is json> trait
+from L<JSON::OptIn|https://github.com/jonathanstowe/JSON-OptIn> can be supplied to
+an attribute to mark it for marshalling explicitly, (it is implicit in all the
+other traits bar C<json-skip>.)
 
 To allow a finer degree of control of how an attribute is marshalled
 an attribute trait C<is marshalled-by> is provided, this can take
@@ -67,14 +100,15 @@ to C<JSON::Fast>
 
 =end pod
 
-use JSON::Name;
+use JSON::OptIn;
+use JSON::Name:ver<0.0.6+>;
 
-module JSON::Marshal:ver<0.0.22>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
 
     use JSON::Fast:ver(v0.16+);
 
 
-    role CustomMarshaller {
+    role CustomMarshaller does JSON::OptIn::OptedInAttribute {
         method marshal($value, Mu:D $object) {
             ...
         }
@@ -108,7 +142,7 @@ module JSON::Marshal:ver<0.0.22>:auth<github:jonathanstowe> {
         $attr.marshaller = $marshalled-by;
     }
 
-    role SkipNull {
+    role SkipNull does JSON::OptIn::OptedInAttribute {
     }
 
     multi sub trait_mod:<is> (Attribute $attr, :$json-skip-null!) is export {
@@ -125,40 +159,40 @@ module JSON::Marshal:ver<0.0.22>:auth<github:jonathanstowe> {
 
 
 
-    multi sub _marshal(Cool $value, Bool :$skip-null) {
+    multi sub _marshal(Cool $value, Bool :$skip-null, Bool :$opt-in ) {
         $value;
     }
 
-    multi sub _marshal(Associative:U $, Bool :$skip-null --> Nil ) {
+    multi sub _marshal(Associative:U $, Bool :$skip-null, Bool :$opt-in  --> Nil ) {
         Nil;
     }
-    multi sub _marshal(%obj, Bool :$skip-null --> Hash ) {
+    multi sub _marshal(%obj, Bool :$skip-null, Bool :$opt-in  --> Hash ) {
         my %ret;
 
         for %obj.kv -> $key, $value {
-            %ret{$key} = _marshal($value, :$skip-null);
+            %ret{$key} = _marshal($value, :$skip-null, :$opt-in);
         }
 
         %ret;
     }
 
-    multi sub _marshal(Positional:U $, Bool :$skip-null --> Nil ) {
+    multi sub _marshal(Positional:U $, Bool :$skip-null, Bool :$opt-in  --> Nil ) {
         Nil;
     }
-    multi sub _marshal(@obj, Bool :$skip-null --> Array) {
+    multi sub _marshal(@obj, Bool :$skip-null, Bool :$opt-in  --> Array) {
         my @ret;
 
         for @obj -> $item {
-            @ret.push(_marshal($item, :$skip-null));
+            @ret.push(_marshal($item, :$skip-null, :$opt-in));
         }
         @ret;
     }
 
-    multi sub _marshal(Mu:U $, Bool :$skip-null --> Nil ) {
+    multi sub _marshal(Mu:U $, Bool :$skip-null, Bool :$opt-in  --> Nil ) {
         Nil;
     }
 
-    multi sub _marshal(Mu:D $obj, Bool :$skip-null --> Hash ) {
+    multi sub _marshal(Mu:D $obj, Bool :$skip-null, Bool :$opt-in --> Hash ) {
         my %ret;
         my %local-attrs =  $obj.^attributes(:local).map({ $_.name => $_.package });
         for $obj.^attributes -> $attr {
@@ -174,12 +208,12 @@ module JSON::Marshal:ver<0.0.22>:auth<github:jonathanstowe> {
                     $accessor-name;
                 }
                 my $value = $obj.^can($accessor-name) ?? $obj."$accessor-name"() !! $attr.get_value($obj);
-                if serialise-ok($attr, $value, $skip-null) {
+                if serialise-ok($attr, $value, $skip-null, $opt-in) {
                     %ret{$name} = do if $attr ~~ CustomMarshaller {
                         $attr.marshal($value, $obj);
                     }
                     else {
-                        _marshal($value);
+                        _marshal($value, :$opt-in);
                     }
                 }
 
@@ -188,9 +222,9 @@ module JSON::Marshal:ver<0.0.22>:auth<github:jonathanstowe> {
         %ret;
     }
 
-    sub serialise-ok(Attribute $attr, Mu $value, Bool $skip-null --> Bool ) {
+    sub serialise-ok(Attribute $attr, Mu $value, Bool $skip-null, Bool $opt-in --> Bool ) {
         my $rc = True;
-        if  $attr ~~ JsonSkip {
+        if  $attr ~~ JsonSkip || ( $opt-in && ( $attr !~~ JSON::OptIn::OptedInAttribute ) ) {
             $rc = False;
         }
         elsif $skip-null || ( $attr ~~ SkipNull ) {
@@ -204,8 +238,8 @@ module JSON::Marshal:ver<0.0.22>:auth<github:jonathanstowe> {
         $rc;
     }
 
-    sub marshal(Any $obj, Bool :$skip-null, Bool :$sorted-keys = False, Bool :$pretty = True --> Str ) is export {
-        my $ret = _marshal($obj, :$skip-null);
+    sub marshal(Any $obj, Bool :$skip-null, Bool :$sorted-keys = False, Bool :$pretty = True, Bool :$opt-in = False --> Str ) is export {
+        my $ret = _marshal($obj, :$skip-null, :$opt-in);
         to-json($ret, :$sorted-keys, :$pretty);
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "JSON::Marshal",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "auth": "github:jonathanstowe",
   "api": "1.0",
   "description": "Simple serialisation of objects to JSON",
@@ -16,7 +16,8 @@
   ],
   "depends": [
     "JSON::Fast:ver<0.16+>",
-    "JSON::Name"
+    "JSON::Name:ver<0.0.6+>",
+    "JSON::OptIn"
   ],
   "build-depends": [
   ],
@@ -35,7 +36,7 @@
   ],
   "license": "Artistic-2.0",
   "provides": {
-    "JSON::Marshal": "lib/JSON/Marshal.pm"
+    "JSON::Marshal": "lib/JSON/Marshal.rakumod"
   },
   "meta-version": "1"
 }
