@@ -1,42 +1,41 @@
 {
-  "name": "JSON::Marshal",
-  "version": "0.0.23",
-  "auth": "github:jonathanstowe",
-  "api": "1.0",
+  "license": "Artistic-2.0",
   "description": "Simple serialisation of objects to JSON",
-  "source-url": "https://github.com/jonathanstowe/JSON-Marshal.git",
-  "support": {
-    "email": "jns+git@gellyfish.co.uk",
-    "source": "https://github.com/jonathanstowe/JSON-Marshal.git",
-    "bugtracker": "https://github.com/jonathanstowe/JSON-Marshal/issues"
-  },
-  "perl": "6.*",
-  "raku": "6.*",
-  "resources": [
-  ],
-  "depends": [
-    "JSON::Fast:ver<0.16+>",
-    "JSON::Name:ver<0.0.6+>",
-    "JSON::OptIn"
-  ],
-  "build-depends": [
-  ],
-  "test-depends": [
-    "Test",
-    "JSON::Fast:ver<0.16+>"
-  ],
-  "author": "Jonathan Stowe <jns+git@gellyfish.co.uk>",
-  "authors": [
-    "Jonathan Stowe <jns+git@gellyfish.co.uk>"
-  ],
+  "version": "0.0.24",
   "tags": [
     "object",
     "serialisation",
     "JSON"
   ],
-  "license": "Artistic-2.0",
+  "authors": [
+    "Jonathan Stowe <jns+git@gellyfish.co.uk>"
+  ],
   "provides": {
     "JSON::Marshal": "lib/JSON/Marshal.rakumod"
   },
-  "meta-version": "1"
+  "support": {
+    "email": "jns+git@gellyfish.co.uk",
+    "source": "https://github.com/jonathanstowe/JSON-Marshal.git",
+    "bugtracker": "https://github.com/jonathanstowe/JSON-Marshal/issues"
+  },
+  "source-url": "https://github.com/jonathanstowe/JSON-Marshal.git",
+  "raku": "6.*",
+  "resources": [
+  ],
+  "author": "Jonathan Stowe <jns+git@gellyfish.co.uk>",
+  "auth": "zef:jonathanstowe",
+  "meta-version": "1",
+  "build-depends": [
+  ],
+  "api": "1.0",
+  "depends": [
+    "JSON::Fast:ver<0.16+>",
+    "JSON::Name:ver<0.0.6+>",
+    "JSON::OptIn"
+  ],
+  "name": "JSON::Marshal",
+  "test-depends": [
+    "Test",
+    "JSON::Fast:ver<0.16+>"
+  ]
 }
