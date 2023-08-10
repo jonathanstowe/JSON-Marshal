@@ -107,6 +107,10 @@ module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
 
     use JSON::Fast:ver(v0.16+);
 
+    my class MarshalParams {
+        has Bool $.skip-null;
+        has Bool $.opt-in;
+    }
 
     role CustomMarshaller does JSON::OptIn::OptedInAttribute {
         method marshal($value, Mu:D $object) {
@@ -159,40 +163,32 @@ module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
 
 
 
-    multi sub _marshal(Cool $value, Bool :$skip-null, Bool :$opt-in ) {
+    multi sub _marshal(Cool $value) {
         $value;
     }
 
-    multi sub _marshal(Associative:U $, Bool :$skip-null, Bool :$opt-in  --> Nil ) {
+    multi sub _marshal(Associative:U) {
         Nil;
     }
-    multi sub _marshal(%obj, Bool :$skip-null, Bool :$opt-in  --> Hash ) {
-        my %ret;
-
-        for %obj.kv -> $key, $value {
-            %ret{$key} = _marshal($value, :$skip-null, :$opt-in);
-        }
-
-        %ret;
+    multi sub _marshal(Associative:D \obj --> Hash:D) {
+        obj.kv.map(-> $key, $value { $key => _marshal($value) }).Hash
     }
 
-    multi sub _marshal(Positional:U $, Bool :$skip-null, Bool :$opt-in  --> Nil ) {
+    multi sub _marshal(Positional:U --> Nil) {
         Nil;
     }
-    multi sub _marshal(@obj, Bool :$skip-null, Bool :$opt-in  --> Array) {
-        my @ret;
-
-        for @obj -> $item {
-            @ret.push(_marshal($item, :$skip-null, :$opt-in));
-        }
-        @ret;
+    multi sub _marshal(Positional:D \obj --> Positional:D) {
+        obj.map({ _marshal($_) }).eager
     }
 
-    multi sub _marshal(Mu:U $, Bool :$skip-null, Bool :$opt-in  --> Nil ) {
+    multi sub _marshal(Mu:U --> Nil) {
         Nil;
     }
 
-    multi sub _marshal(Mu:D $obj, Bool :$skip-null, Bool :$opt-in --> Hash ) {
+    multi sub _marshal(Mu:D $obj --> Hash:D) {
+        # Though the params are required by serialize-ok, it is better to pull in the dynamic here because it reduces
+        # the number of slow dynamic lookups.
+        my $params = $*JSON-MARSHAL-PARAMS;
         my %ret;
         my %local-attrs =  $obj.^attributes(:local).map({ $_.name => $_.package });
         for $obj.^attributes -> $attr {
@@ -208,12 +204,12 @@ module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
                     $accessor-name;
                 }
                 my $value = $obj.^can($accessor-name) ?? $obj."$accessor-name"() !! $attr.get_value($obj);
-                if serialise-ok($attr, $value, $skip-null, $opt-in) {
+                if serialise-ok($attr, $value, $params) {
                     %ret{$name} = do if $attr ~~ CustomMarshaller {
                         $attr.marshal($value, $obj);
                     }
                     else {
-                        _marshal($value, :$opt-in);
+                        _marshal($value);
                     }
                 }
 
@@ -222,12 +218,12 @@ module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
         %ret;
     }
 
-    sub serialise-ok(Attribute $attr, Mu $value, Bool $skip-null, Bool $opt-in --> Bool ) {
+    sub serialise-ok(Attribute $attr, Mu $value, MarshalParams:D $params --> Bool ) {
         my $rc = True;
-        if  $attr ~~ JsonSkip || ( $opt-in && ( $attr !~~ JSON::OptIn::OptedInAttribute ) ) {
+        if  $attr ~~ JsonSkip || ( $params.opt-in && ( $attr !~~ JSON::OptIn::OptedInAttribute ) ) {
             $rc = False;
         }
-        elsif $skip-null || ( $attr ~~ SkipNull ) {
+        elsif $params.skip-null || ( $attr ~~ SkipNull ) {
             if $attr.type ~~ Associative|Positional {
                 $rc = ?$value.elems;
             }
@@ -239,7 +235,8 @@ module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
     }
 
     sub marshal(Any $obj, Bool :$skip-null, Bool :$sorted-keys = False, Bool :$pretty = True, Bool :$opt-in = False --> Str ) is export {
-        my $ret = _marshal($obj, :$skip-null, :$opt-in);
+        my $*JSON-MARSHAL-PARAMS = MarshalParams.new(:$skip-null, :$opt-in);
+        my $ret = _marshal($obj);
         to-json($ret, :$sorted-keys, :$pretty);
     }
 }
