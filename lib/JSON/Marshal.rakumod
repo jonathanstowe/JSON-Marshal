@@ -189,7 +189,7 @@ module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
             if %local-attrs{$attr.name}:exists && !(%local-attrs{$attr.name} === $attr.package ) {
                 next;
             }
-            if $attr.has_accessor {
+            if $attr.has_accessor || $attr.is_built || $attr ~~ JSON::OptIn::OptedInAttribute {
                 my $accessor-name = $attr.name.substr(2); # lose the sigil
                 my $name = do if $attr ~~ JSON::Name::NamedAttribute {
                     $attr.json-name;
