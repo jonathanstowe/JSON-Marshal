@@ -6,6 +6,8 @@ use Test;
 use JSON::Marshal;
 use JSON::Fast;
 
+plan 15;
+
 # test default global behaviour
 class SkipTestClassOne {
     has Str $.id;
@@ -45,6 +47,16 @@ nok $out<leave-blank>.defined, "and it isn't defined";
 is $out<rev>, "bar", "one with the trait but with value is there";
 ok $out<empty-hash>:exists, "the empty hash is there";
 nok $out<skip-hash>:exists, "the skipped one isn't there";
+
+class NestedStruct {
+    has SkipTestClassOne:D $.stc1 .= new;
+    has SkipTestClassTwo:D $.stc2 .= new;
+}
+
+lives-ok
+    { $res-default = marshal(NestedStruct.new, :skip-null, :sorted-keys, :!pretty) },
+    "skip-null with a deep struct";
+is $res-default, '{"stc1":{},"stc2":{}}', "no empty keys are included";
 
 done-testing;
 # vim: expandtab shiftwidth=4 ft=raku
