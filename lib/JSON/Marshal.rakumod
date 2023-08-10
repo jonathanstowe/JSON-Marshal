@@ -167,16 +167,10 @@ module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
         $value;
     }
 
-    multi sub _marshal(Associative:U) {
-        Nil;
-    }
     multi sub _marshal(Associative:D \obj --> Hash:D) {
         obj.kv.map(-> $key, $value { $key => _marshal($value) }).Hash
     }
 
-    multi sub _marshal(Positional:U --> Nil) {
-        Nil;
-    }
     multi sub _marshal(Positional:D \obj --> Positional:D) {
         obj.map({ _marshal($_) }).eager
     }
