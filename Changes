@@ -1,4 +1,7 @@
-v0.0.24	Sun  7 Aug 09:48:39 BST 2022
+v0.0.25		Mon 14 Aug 12:03:19 BST 2023
+	* Make skip-null work on nested object (from Vadim Belman.)
+	* Allow some private attributes to be serialized (from Vadim Belman.)
+v0.0.24		Sun  7 Aug 09:48:39 BST 2022
 	* Upload to zef repository
 v0.0.23		Wed 22 Sep 10:43:22 BST 2021
 	* Provide for opt-in serialization

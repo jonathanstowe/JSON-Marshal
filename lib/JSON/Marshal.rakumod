@@ -103,7 +103,7 @@ to C<JSON::Fast>
 use JSON::OptIn;
 use JSON::Name:ver<0.0.6+>;
 
-module JSON::Marshal:ver<0.0.23>:auth<github:jonathanstowe> {
+module JSON::Marshal:ver<0.0.25>:auth<github:jonathanstowe> {
 
     use JSON::Fast:ver(v0.16+);
 
